@@ -1,164 +1,163 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz cumpleaños</title>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #ffffff;
-    color: #000000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: sans-serif;
-    overflow: hidden;
-}
-.screen {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.hidden {
-    display: none !important;
-}
-@keyframes arrowMove {
-    0% { transform: translateX(0px); }
-    50% { transform: translateX(10px); }
-    100% { transform: translateX(0px); }
-}
-.arrow {
-    width: 30px;
-    height: 30px;
-    margin-right: 15px;
-    animation: arrowMove 1s infinite ease-in-out;
-    object-fit: contain;
-}
-.text-container {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-}
-.zoom-container {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.zoom-img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Feliz cumpleaños</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: white;
+      color: black;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #pantalla {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      text-align: center;
+    }
+
+    #inicio {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    #mensaje {
+      font-size: 30px;
+      padding: 20px;
+    }
+
+    #grupo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    #flecha {
+      width: 55px;
+      height: auto;
+      animation: mover 0.7s infinite alternate ease-in-out;
+    }
+
+    #carta {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      object-fit: contain;
+    }
+
+    .negro {
+      background: black;
+      color: white;
+    }
+
+    .blanco {
+      background: white;
+      color: black;
+    }
+
+    @keyframes mover {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(12px);
+      }
+    }
+  </style>
 </head>
 <body>
-
-<audio id="meow" src="meow.mp3" preload="auto"></audio>
-<audio id="fart" src="fart.mp3" preload="auto"></audio>
-<audio id="light" src="light.mp3" preload="auto"></audio>
-
-<div id="screen1" class="screen" style="background-color: white; color: black;">
-    <div class="text-container">
-        <img src="red.png" class="arrow" alt="Flecha" onerror="this.src='https://placehold.co/30x30/red/white?text=%3E'">
-        <span>Feliz cumpleaños</span>
+  <main id="pantalla" class="blanco">
+    <div id="inicio">toca</div>
+    <div id="grupo" style="display: none;">
+      <img id="flecha" src="red.png" alt="">
+      <div id="mensaje"></div>
     </div>
-</div>
+    <img id="carta" src="cartita.png" alt="Carta de cumpleaños">
+  </main>
 
-<div id="screen2" class="screen hidden" style="background-color: black; color: white;">
-</div>
+  <audio id="meow" src="meow.mp3" preload="auto"></audio>
+  <audio id="fart" src="fart.mp3" preload="auto"></audio>
+  <audio id="light" src="light.mp3" preload="auto"></audio>
 
-<div id="screen3" class="screen hidden" style="background-color: white; color: black;">
-    <span id="message" style="font-size: 26px; font-weight: bold;">Feliz cumpleaño, amor</span>
-</div>
+  <script>
+    const pantalla = document.getElementById("pantalla");
+    const inicio = document.getElementById("inicio");
+    const grupo = document.getElementById("grupo");
+    const mensaje = document.getElementById("mensaje");
+    const carta = document.getElementById("carta");
 
-<div id="screen4" class="screen hidden" style="background-color: black; color: white;">
-</div>
+    const meow = document.getElementById("meow");
+    const fart = document.getElementById("fart");
+    const light = document.getElementById("light");
 
-<div id="screen5" class="screen hidden" style="background-color: black; color: white;">
-    <div class="zoom-container" id="zoomBox">
-        <img id="carta" src="cartita.png" class="zoom-img" alt="Cartita" onerror="this.src='https://placehold.co/250x350/cccccc/333333?text=Cartita'">
-    </div>
-</div>
-
-<script>
-const meowAudio = document.getElementById('meow');
-const fartAudio = document.getElementById('fart');
-const lightAudio = document.getElementById('light');
-
-const screen1 = document.getElementById('screen1');
-const screen2 = document.getElementById('screen2');
-const screen3 = document.getElementById('screen3');
-const screen4 = document.getElementById('screen4');
-const screen5 = document.getElementById('screen5');
-const message = document.getElementById('message');
-const carta = document.getElementById('carta');
-
-let isZoomed = false;
-
-window.onload = function() {
-    meowAudio.play().catch(() => {});
-
-    setTimeout(() => {
-        meowAudio.pause();
-        meowAudio.currentTime = 0;
-        screen1.classList.add('hidden');
-        screen2.classList.remove('hidden');
-        fartAudio.play().catch(() => {});
-
-        setTimeout(() => {
-            screen2.classList.add('hidden');
-            screen3.classList.remove('hidden');
-
-            setTimeout(() => {
-                message.textContent = "Es broma";
-
-                setTimeout(() => {
-                    screen3.classList.add('hidden');
-                    screen4.classList.remove('hidden');
-                    lightAudio.play().catch(() => {});
-
-                    setTimeout(() => {
-                        lightAudio.play().catch(() => {});
-                        screen4.classList.add('hidden');
-                        screen5.classList.remove('hidden');
-
-                    }, 3000);
-
-                }, 2000);
-
-            }, 4000);
-
-        }, 6000);
-
-    }, 5000);
-};
-
-carta.addEventListener('click', function() {
-    if (!isZoomed) {
-        carta.style.transform = "scale(2.5)";
-        isZoomed = true;
-    } else {
-        carta.style.transform = "scale(1)";
-        isZoomed = false;
+    function esperar(segundos) {
+      return new Promise(resolve => setTimeout(resolve, segundos * 1000));
     }
-});
-</script>
 
+    async function empezar() {
+      inicio.style.display = "none";
+      grupo.style.display = "flex";
+      mensaje.textContent = "Feliz cumpleaños";
+
+      meow.currentTime = 0;
+      meow.play();
+
+      await esperar(5);
+
+      meow.pause();
+      meow.currentTime = 0;
+      pantalla.className = "negro";
+      grupo.style.display = "none";
+
+      fart.currentTime = 0;
+      fart.play();
+
+      await esperar(6);
+
+      pantalla.className = "blanco";
+      grupo.style.display = "flex";
+      mensaje.textContent = "Feliz cumpleaño, amor";
+
+      await esperar(4);
+
+      mensaje.textContent = "Es broma";
+
+      await esperar(2);
+
+      grupo.style.display = "none";
+      pantalla.className = "negro";
+
+      light.currentTime = 0;
+      light.play();
+
+      await esperar(3);
+
+      light.currentTime = 0;
+      light.play();
+      pantalla.className = "blanco";
+      carta.style.display = "block";
+    }
+
+    inicio.addEventListener("click", empezar, { once: true });
+  </script>
 </body>
 </html>
-```
