@@ -1,0 +1,149 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz cumpleaños</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            background-color: white;
+            color: black;
+            user-select: none;
+        }
+        .screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .hidden {
+            display: none !important;
+        }
+        @keyframes moveArrow {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(0px); }
+        }
+        .arrow-anim {
+            animation: moveArrow 1s infinite ease-in-out;
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+        .text-style {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .img-container {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .carta-img {
+            max-width: 200px;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="meowAudio" src="meow.mp3" preload="auto"></audio>
+    <audio id="fartAudio" src="fart.mp3" preload="auto"></audio>
+    <audio id="lightAudio" src="light.mp3" preload="auto"></audio>
+
+    <div id="screen1" class="screen bg-white">
+        <img src="red.png" alt="Flecha" class="arrow-anim" onerror="this.src='https://placehold.co/40x40/red/white?text=→'">
+        <span class="text-style">Feliz cumpleaños</span>
+    </div>
+
+    <div id="screen3" class="screen bg-white hidden">
+        <span id="textMsg" class="text-style">Feliz cumpleaño, amor</span>
+    </div>
+
+    <div id="screen6" class="screen bg-black hidden" style="overflow: auto; flex-direction: column;">
+        <div id="imgContainer" class="img-container">
+            <img id="cartaImg" src="cartita.png" alt="Cartita" class="carta-img" onerror="this.src='https://placehold.co/200x300/333333/ffffff?text=Cartita+Zoom'">
+        </div>
+    </div>
+
+    <script>
+        let isZoomed = false;
+        const meow = document.getElementById('meowAudio');
+        const fart = document.getElementById('fartAudio');
+        const light = document.getElementById('lightAudio');
+        const screen1 = document.getElementById('screen1');
+        const screen3 = document.getElementById('screen3');
+        const textMsg = document.getElementById('textMsg');
+        const screen6 = document.getElementById('screen6');
+        const imgContainer = document.getElementById('imgContainer');
+
+        function runSequence() {
+            meow.play().catch(() => {});
+
+            setTimeout(() => {
+                meow.pause();
+                meow.currentTime = 0;
+                document.body.style.backgroundColor = "black";
+                screen1.classList.add('hidden');
+                fart.play().catch(() => {});
+
+                setTimeout(() => {
+                    document.body.style.backgroundColor = "white";
+                    screen3.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        textMsg.textContent = "Es broma";
+
+                        setTimeout(() => {
+                            document.body.style.backgroundColor = "black";
+                            screen3.classList.add('hidden');
+                            light.play().catch(() => {});
+
+                            setTimeout(() => {
+                                light.play().catch(() => {});
+                                screen6.classList.remove('hidden');
+                            }, 3000);
+
+                        }, 2000);
+
+                    }, 4000);
+
+                }, 6000);
+
+            }, 5000);
+        }
+
+        window.onload = function() {
+            runSequence();
+        };
+
+        imgContainer.addEventListener('click', function() {
+            isZoomed = !isZoomed;
+            if (isZoomed) {
+                imgContainer.style.transform = "scale(2.2)";
+            } else {
+                imgContainer.style.transform = "scale(1)";
+            }
+        });
+    </script>
+</body>
+</html>
+```
