@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -64,7 +65,7 @@
       object-fit: contain;
     }
 
-    .negro {
+    .negrojejeje {
       background: black;
       color: white;
     }
@@ -87,10 +88,12 @@
 <body>
   <main id="pantalla" class="blanco">
     <div id="inicio">toca</div>
+
     <div id="grupo" style="display: none;">
       <img id="flecha" src="red.png" alt="">
       <div id="mensaje"></div>
     </div>
+
     <img id="carta" src="cartita.png" alt="Carta de cumpleaños">
   </main>
 
@@ -103,6 +106,7 @@
     const inicio = document.getElementById("inicio");
     const grupo = document.getElementById("grupo");
     const mensaje = document.getElementById("mensaje");
+    const flecha = document.getElementById("flecha");
     const carta = document.getElementById("carta");
 
     const meow = document.getElementById("meow");
@@ -116,17 +120,20 @@
     async function empezar() {
       inicio.style.display = "none";
       grupo.style.display = "flex";
+      flecha.style.display = "block";
       mensaje.textContent = "Feliz cumpleaños";
 
       meow.currentTime = 0;
       meow.play();
 
-      await esperar(5);
+      await esperar(5); 
+      // await = aesperar, lo pillas? callese alan
 
       meow.pause();
       meow.currentTime = 0;
-      pantalla.className = "negro";
+
       grupo.style.display = "none";
+      pantalla.className = "negro";
 
       fart.currentTime = 0;
       fart.play();
@@ -135,6 +142,7 @@
 
       pantalla.className = "blanco";
       grupo.style.display = "flex";
+      flecha.style.display = "none";
       mensaje.textContent = "Feliz cumpleaño, amor";
 
       await esperar(4);
@@ -153,6 +161,7 @@
 
       light.currentTime = 0;
       light.play();
+
       pantalla.className = "blanco";
       carta.style.display = "block";
     }
