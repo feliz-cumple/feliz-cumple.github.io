@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes bounce-horizontal {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        .animate-arrow {
+            animation: bounce-horizontal 0.6s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-black m-0 p-0 overflow-hidden h-screen w-screen flex flex-col items-center justify-center font-sans select-none">
+
+    <audio id="meow" src="meow.mp3"></audio>
+    <audio id="fart" src="fart.mp3"></audio>
+    <audio id="light" src="light.mp3"></audio>
+
+    <div id="screen-1" class="flex flex-col items-center justify-center h-full w-full absolute bg-white transition-opacity duration-500">
+        <div class="flex items-center gap-4 px-4 text-center">
+            <h1 class="text-3xl font-bold">Feliz cumpleaños</h1>
+            <img src="red.png" alt="Flecha" class="w-12 h-12 animate-arrow object-contain">
+        </div>
+    </div>
+
+    <div id="screen-2" class="hidden flex items-center justify-center h-full w-full absolute bg-black transition-opacity duration-500">
+    </div>
+
+    <div id="screen-3" class="hidden flex flex-col items-center justify-center h-full w-full absolute bg-white p-6 text-center transition-opacity duration-500">
+        <p id="text-1" class="text-2xl font-medium">Feliz cumple, amor.</p>
+        <p id="text-2" class="text-2xl font-medium hidden">Es broma.</p>
+    </div>
+
+    <div id="screen-4" class="hidden flex flex-col items-center justify-center h-full w-full absolute bg-black overflow-auto p-4 transition-opacity duration-500">
+        <div id="zoom-container" class="relative max-w-full max-h-full flex items-center justify-center transition-transform duration-200 cursor-zoom-in">
+            <img id="cartita" src="cartita.png" alt="Cartita" class="max-h-[85vh] max-w-[90vw] object-contain rounded shadow-lg">
+        </div>
+    </div>
+
+    <div id="start-overlay" class="absolute inset-0 bg-white/90 z-50 flex items-center justify-center p-6 text-center cursor-pointer">
+        <div class="bg-black text-white px-6 py-3 rounded-full text-lg font-bold shadow-lg">Toca la pantalla para comenzar</div>
+    </div>
+
+    <script>
+        const startOverlay = document.getElementById('start-overlay');
+        const screen1 = document.getElementById('screen-1');
+        const screen2 = document.getElementById('screen-2');
+        const screen3 = document.getElementById('screen-3');
+        const screen4 = document.getElementById('screen-4');
+        const text1 = document.getElementById('text-1');
+        const text2 = document.getElementById('text-2');
+        const zoomContainer = document.getElementById('zoom-container');
+        
+        const meowAudio = document.getElementById('meow');
+        const fartAudio = document.getElementById('fart');
+        const lightAudio = document.getElementById('light');
+
+        let isZoomed = false;
+
+        startOverlay.addEventListener('click', () => {
+            startOverlay.style.display = 'none';
+            meowAudio.play().catch(() => {});
+
+            setTimeout(() => {
+                screen1.classList.add('hidden');
+                screen2.classList.remove('hidden');
+                fartAudio.play().catch(() => {});
+
+                setTimeout(() => {
+                    screen2.classList.add('hidden');
+                    screen3.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        text1.classList.add('hidden');
+                        text2.classList.remove('hidden');
+
+                        setTimeout(() => {
+                            screen3.classList.add('hidden');
+                            screen4.classList.remove('hidden');
+                            lightAudio.play().catch(() => {});
+
+                            setTimeout(() => {
+                                lightAudio.play().catch(() => {});
+                            }, 3000);
+
+                        }, 2000);
+
+                    }, 2000);
+
+                }, 8000);
+
+            }, 5000);
+        });
+
+        zoomContainer.addEventListener('click', () => {
+            isZoomed = !isZoomed;
+            if (isZoomed) {
+                zoomContainer.style.transform = 'scale(2)';
+                zoomContainer.style.cursor = 'zoom-out';
+            } else {
+                zoomContainer.style.transform = 'scale(1)';
+                zoomContainer.style.cursor = 'zoom-in';
+            }
+        });
+    </script>
+</body>
+</html>
